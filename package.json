@@ -36,8 +36,8 @@
     "android",
     "animated",
     "accordion",
-    "collapsable",
-    "react native collapsable",
+    "collapsible",
+    "react native collapsible",
     "react native accordion"
   ],
   "repository": "https://github.com/Waseem6409/react-native-animated-accordion",
