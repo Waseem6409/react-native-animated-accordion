@@ -81,7 +81,9 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-reanimated": ">=2.0.0",
+    "react-native-vector-icons": "*"
   },
   "jest": {
     "preset": "react-native",
@@ -156,5 +158,9 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "react-native-reanimated": "^2.10.0",
+    "react-native-vector-icons": "^9.2.0"
   }
 }
