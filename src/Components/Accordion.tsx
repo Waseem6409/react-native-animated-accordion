@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -8,17 +7,20 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 import propTypes from 'prop-types';
+import Icon from './Icon';
 
 interface Props {
   headerText: string;
-  parentContainerStyles: object;
-  bodyStyles: object;
-  headerStyles: object;
-  headerTextStyles: object;
-  headerIconStyles: object;
-  onPress: null | Function;
-  isOpen: null | boolean;
-  duration: number;
+  parentContainerStyles?: object;
+  bodyStyles?: object;
+  headerStyles?: object;
+  headerTextStyles?: object;
+  headerIconStyles?: object;
+  headerIconColor?: string;
+  headerIconSize?: number;
+  onPress?: Function;
+  isOpen?: boolean | null;
+  duration?: number;
   children: JSX.Element;
 }
 
@@ -30,12 +32,14 @@ const Accordion = (props: Props) => {
     headerStyles,
     headerTextStyles,
     headerIconStyles,
+    headerIconColor = '#000000',
+    headerIconSize = 20,
     isOpen = null,
     onPress = null,
     duration = 200,
     children,
   } = props;
-  const AnimatedMaterialIcons = Animated.createAnimatedComponent(MaterialIcons);
+  //   const AnimatedMaterialIcons = Animated.createAnimatedComponent(MaterialIcons);
 
   const [open, setOpen] = useState(false);
   const animatedHeightValue = useSharedValue(0);
@@ -43,7 +47,6 @@ const Accordion = (props: Props) => {
 
   const headerPressHandler = () => {
     if (typeof isOpen === 'boolean') {
-      console.log('Type is boolean');
     } else {
       toggleOpen();
     }
@@ -83,7 +86,7 @@ const Accordion = (props: Props) => {
   });
 
   const animatedRotation = useAnimatedStyle(() => {
-    const rotate = interpolate(animatedHeightValue.value, [0, 1], [-90, 90]);
+    const rotate = interpolate(animatedHeightValue.value, [0, 1], [0, 180]);
     return {
       transform: [{ rotate: `${rotate}deg` }],
     };
@@ -102,11 +105,14 @@ const Accordion = (props: Props) => {
         onPress={headerPressHandler}
       >
         <Text style={[styles.headerText, headerTextStyles]}>{headerText}</Text>
-        <AnimatedMaterialIcons
+        {/* <AnimatedMaterialIcons
           style={[styles.headerIcon, animatedRotation, headerIconStyles]}
           name="arrow-back-ios"
           size={15}
-        />
+        /> */}
+        <Animated.View style={[animatedRotation,headerIconStyles]}>
+          <Icon color={headerIconColor} size={headerIconSize} />
+        </Animated.View>
       </TouchableOpacity>
       <Animated.View style={[styles.bodyContainer, animatedHeight, bodyStyles]}>
         <View
@@ -151,10 +157,6 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#000000',
     marginRight: 10,
-  },
-  headerIcon: {
-    color: 'black',
-    transform: [{ rotate: '-90deg' }],
   },
   bodyContainer: {
     borderRadius: 8,

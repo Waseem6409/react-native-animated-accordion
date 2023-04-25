@@ -8,7 +8,7 @@ const App = () => {
   return (
     <ScrollView contentContainerStyle={styles.mainContainer}>
       <Text style={{ color: '#000000', marginVertical: 20 }}>Light Theme</Text>
-      <Accordion headerText="Light Theme">
+      <Accordion headerText="Light Theme" headerIconSize={20}>
         <View style={{ padding: 10 }}>
           <Text style={{ color: '#000000' }}>Light Theme</Text>
           <Text style={{ color: '#000000' }}>Light Theme</Text>
@@ -23,6 +23,8 @@ const App = () => {
         bodyStyles={{
           backgroundColor: 'black',
         }}
+        headerIconColor="#ffffff"
+        headerIconSize={20}
         headerText="Dark Theme"
         headerStyles={{ paddingVertical: 15, backgroundColor: '#000000' }}
         headerTextStyles={{ color: '#ffffff' }}
@@ -48,7 +50,9 @@ const App = () => {
         headerText="Header"
         headerStyles={{ paddingVertical: 20 }}
         headerTextStyles={{ fontStyle: 'italic' }}
-        headerIconStyles={{ fontSize: 15 }}
+        headerIconSize={30}
+        headerIconColor="blue"
+        headerIconStyles={{ backgroundColor: 'yellow' }}
         isOpen={isOpen}
         onPress={() => setIsOpen(!isOpen)}
       >

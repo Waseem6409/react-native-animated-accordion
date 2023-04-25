@@ -8,27 +8,24 @@ Supports dynamic content heights and components.
 
 https://user-images.githubusercontent.com/50287765/187772673-45f73f77-1bd4-4317-827b-4c6e449e5e6b.mp4
 
-
 ## Installation
 
 Using npm
 
 ```bash
-npm install --save react-native-animated-accordion react-native-vector-icons react-native-reanimated
+npm install --save react-native-animated-accordion react-native-reanimated react-native-svg
 ```
 
 Using yarn
 
 ```bash
-yarn add react-native-animated-accordion react-native-vector-icons react-native-reanimated
+yarn add react-native-animated-accordion react-native-reanimated react-native-svg
 ```
 
 Before using the package setup packages on your project
 
-For react-native-vector-icons follow [this](https://github.com/oblador/react-native-vector-icons#installation) documentation
 
 For react-native-reanimated follow [this](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation) documentation
-
 
 ## Usage
 
@@ -53,8 +50,10 @@ import { Accordion } from 'react-native-animated-accordion';
 | **`headerStyles`**          | Styles for header of accordion                      | `default styles` |
 | **`headerTextStyles`**      | Styles for header text of accordion                 | `default styles` |
 | **`headerIconStyles`**      | Styles for header arrow icon of accordion           | `default styles` |
+| **`headerIconColor`**       | Icon color of header                                | `#000000`        |
+| **`headerIconSize`**        | Icon size of header                                 | `20`             |
 | **`onPress`**               | Function triggered when user clicks on header       | `null`           |
-| **`duration`**              | Duration of animation in milliseconds              | `300`            |
+| **`duration`**              | Duration of animation in milliseconds               | `300`            |
 
 ## Accordion Usage Examples
 
@@ -138,19 +137,14 @@ const styles = StyleSheet.create({
 export default App;
 ```
 
-
-
 ## Maintainers
 
 <table>
 
-
-
-
   <tbody>
     <tr>
       <td align="center">
-        <a href="https://github.com/oblador">
+        <a href="https://github.com/waseem6409">
           <img width="150" height="150" src="https://avatars.githubusercontent.com/u/50287765?v=3&s=150">
           <br>
           <strong>Waseem Munir</strong>
