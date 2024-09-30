@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,61 +14,47 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 import propTypes from 'prop-types';
-import Icon from './Icon';
 
 interface Props {
+  open: boolean;
+  onChange?: (value: boolean) => void;
   headerText: string;
-  parentContainerStyles?: object;
-  bodyStyles?: object;
-  headerStyles?: object;
-  headerTextStyles?: object;
-  headerIconStyles?: object;
-  headerIconColor?: string;
-  headerIconSize?: number;
-  onPress?: Function;
-  isOpen?: boolean | null;
+  parentContainerStyles?: ViewStyle;
+  bodyStyles?: ViewStyle;
+  headerStyles?: ViewStyle;
+  headerTextStyles?: TextStyle;
   duration?: number;
+  spacing?: number;
+  icon?: JSX.Element;
   children: JSX.Element;
 }
 
 const Accordion = (props: Props) => {
   const {
+    open,
+    onChange,
     parentContainerStyles,
     bodyStyles,
     headerText,
     headerStyles,
     headerTextStyles,
-    headerIconStyles,
-    headerIconColor = '#000000',
-    headerIconSize = 20,
-    isOpen = null,
-    onPress = null,
+    spacing = 5,
     duration = 200,
+    icon,
     children,
   } = props;
-  //   const AnimatedMaterialIcons = Animated.createAnimatedComponent(MaterialIcons);
 
-  const [open, setOpen] = useState(false);
   const animatedHeightValue = useSharedValue(0);
   const bodyHeight = useSharedValue(0);
 
   const headerPressHandler = () => {
-    if (typeof isOpen === 'boolean') {
-    } else {
-      toggleOpen();
-    }
-    if (typeof onPress === 'function') {
-      onPress();
+    if (typeof onChange === 'function') {
+      onChange(!open);
     }
   };
 
-  const toggleOpen = () => {
-    toggleAnimationValue(!open);
-    setOpen(!open);
-  };
-
-  const toggleAnimationValue = (isLocalOpen: boolean) => {
-    if (isLocalOpen) {
+  const toggleAnimationValue = (value: boolean) => {
+    if (value) {
       animatedHeightValue.value = withTiming(1, {
         duration: duration,
       });
@@ -78,7 +71,11 @@ const Accordion = (props: Props) => {
       [0, 1],
       [0, bodyHeight.value]
     );
-    const marginTop = interpolate(animatedHeightValue.value, [0, 1], [0, 10]);
+    const marginTop = interpolate(
+      animatedHeightValue.value,
+      [0, 1],
+      [0, spacing]
+    );
     return {
       height: height,
       marginTop: marginTop,
@@ -93,10 +90,9 @@ const Accordion = (props: Props) => {
   });
 
   useEffect(() => {
-    if (typeof isOpen === 'boolean') {
-      toggleAnimationValue(isOpen);
-    }
-  }, [isOpen]);
+    toggleAnimationValue(!open);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   return (
     <View style={[styles.mainContainer, parentContainerStyles]}>
@@ -105,14 +101,7 @@ const Accordion = (props: Props) => {
         onPress={headerPressHandler}
       >
         <Text style={[styles.headerText, headerTextStyles]}>{headerText}</Text>
-        {/* <AnimatedMaterialIcons
-          style={[styles.headerIcon, animatedRotation, headerIconStyles]}
-          name="arrow-back-ios"
-          size={15}
-        /> */}
-        <Animated.View style={[animatedRotation,headerIconStyles]}>
-          <Icon color={headerIconColor} size={headerIconSize} />
-        </Animated.View>
+        <Animated.View style={[animatedRotation]}>{icon}</Animated.View>
       </TouchableOpacity>
       <Animated.View style={[styles.bodyContainer, animatedHeight, bodyStyles]}>
         <View
@@ -129,6 +118,8 @@ const Accordion = (props: Props) => {
 };
 
 Accordion.prototype = {
+  open: propTypes.bool.isRequired,
+  setOpen: propTypes.func.isRequired,
   parentContainerStyles: propTypes.object,
   bodyStyles: propTypes.object,
   headerText: propTypes.string.isRequired,
@@ -136,7 +127,6 @@ Accordion.prototype = {
   headerTextStyles: propTypes.object,
   headerIconStyles: propTypes.object,
   onPress: propTypes.func,
-  isOpen: propTypes.bool,
 };
 
 const styles = StyleSheet.create({

@@ -10,8 +10,6 @@
   "files": [
     "src",
     "lib",
-    "android",
-    "ios",
     "cpp",
     "*.podspec",
     "!lib/typescript/example",
@@ -83,6 +81,7 @@
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-builder-bob": "^0.20.4",
+    "react-native-reanimated": "^3.1.0",
     "release-it": "^15.10.1",
     "typescript": "^5.0.4"
   },
@@ -92,13 +91,11 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-reanimated": ">=2.0.0",
-    "react-native-svg": ">=13.9.0"
+    "react-native-reanimated": ">=2.0.0"
   },
   "engines": {
     "node": ">= 16.0.0"
   },
-  "packageManager": "^yarn@1.22.15",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -171,9 +168,5 @@
         }
       ]
     ]
-  },
-  "dependencies": {
-    "react-native-reanimated": "^3.1.0",
-    "react-native-svg": "^13.9.0"
   }
 }

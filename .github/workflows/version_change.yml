@@ -1,0 +1,71 @@
+name: NPM Version Bump
+
+on:
+  push:
+    branches:
+      - master
+
+permissions: 
+  contents: write
+
+jobs:
+  Publish_NPM_Package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: 'npm'
+
+      - name: Install jq (if needed)
+        run: |
+          if ! command -v jq &> /dev/null; then
+            sudo apt-get install jq
+          fi
+
+      - name: Determine if version needs updating
+        id: check-version
+        run: |
+          package_json_path=./package.json
+          if [[ ! -f "$package_json_path" ]]; then
+            echo "package.json not found. Skipping version update."
+            exit 0
+          fi
+
+          current_version=$(jq -r '.version' "$package_json_path")
+          previous_version=$(git log -1 --format='%s' | grep -o 'Bump version to' | cut -d ' ' -f 4)
+
+          if [[ -n "$previous_version" && "$previous_version" == "$current_version" ]]; then
+            echo "Version already bumped. Skipping update."
+            exit 0
+          fi
+
+          echo ::set-output name=needs_update::true
+
+      - name: Configure Git user information
+        if: steps.check-version.outputs.needs_update == 'true'
+        run: |
+          git config --global user.email "waseem6409@gmail.com"
+          git config --global user.name "Waseem6409"
+
+      - name: Update version if needed
+        if: steps.check-version.outputs.needs_update == 'true'
+        run: |
+          new_version=$(npm version patch --no-git-tag)
+          git add .
+          git commit -m "Bumped version to: $new_version"
+          echo "Bumped version to: $new_version"
+
+      - name: Commit changes (if version updated)
+        if: steps.check-version.outputs.needs_update == 'true'
+        run: |
+          git push origin main
+
+      - name: Install dependencies
+        run: yarn
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}

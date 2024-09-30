@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Accordion } from 'react-native-animated-accordion';
+import Icon from './Icon';
 
 const App = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openOne, setOpenOne] = useState(false);
+  const [openTwo, setOpenTwo] = useState(false);
+  const [openThree, setOpenThree] = useState(false);
 
   return (
     <ScrollView contentContainerStyle={styles.mainContainer}>
       <Text style={{ color: '#000000', marginVertical: 20 }}>Light Theme</Text>
-      <Accordion headerText="Light Theme" headerIconSize={20}>
+      <Accordion
+        spacing={10}
+        headerText="Light Theme"
+        open={openOne}
+        onChange={(value) => setOpenOne(value)}
+        icon={<Icon color="#000000" size={20} />}
+      >
         <View style={{ padding: 10 }}>
           <Text style={{ color: '#000000' }}>Light Theme</Text>
           <Text style={{ color: '#000000' }}>Light Theme</Text>
@@ -20,15 +29,19 @@ const App = () => {
 
       <Text style={{ color: '#000000', marginVertical: 20 }}>Dark Theme</Text>
       <Accordion
+        icon={<Icon color="#ffffff" size={40} />}
+        open={openTwo}
+        onChange={(value) => setOpenTwo(value)}
         bodyStyles={{
           backgroundColor: 'black',
         }}
-        headerIconColor="#ffffff"
-        headerIconSize={20}
         headerText="Dark Theme"
-        headerStyles={{ paddingVertical: 15, backgroundColor: '#000000' }}
+        headerStyles={{
+          paddingVertical: 15,
+          backgroundColor: '#000000',
+          alignItems: 'center',
+        }}
         headerTextStyles={{ color: '#ffffff' }}
-        headerIconStyles={{ fontSize: 15, color: '#ffffff' }}
       >
         <View style={{ padding: 10 }}>
           <Text style={{ color: '#ffffff' }}>Dark Theme</Text>
@@ -41,6 +54,8 @@ const App = () => {
 
       <Text style={{ color: '#000000', marginVertical: 20 }}>Props Intro</Text>
       <Accordion
+        open={openThree}
+        onChange={(value) => setOpenThree(value)}
         parentContainerStyles={{
           marginTop: 20,
         }}
@@ -50,11 +65,6 @@ const App = () => {
         headerText="Header"
         headerStyles={{ paddingVertical: 20 }}
         headerTextStyles={{ fontStyle: 'italic' }}
-        headerIconSize={30}
-        headerIconColor="blue"
-        headerIconStyles={{ backgroundColor: 'yellow' }}
-        isOpen={isOpen}
-        onPress={() => setIsOpen(!isOpen)}
       >
         <View style={{ padding: 10 }}>
           <Text style={{ color: '#000000' }}>Header</Text>
