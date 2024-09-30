@@ -13,17 +13,16 @@ https://user-images.githubusercontent.com/50287765/187772673-45f73f77-1bd4-4317-
 Using npm
 
 ```bash
-npm install --save react-native-animated-accordion react-native-reanimated react-native-svg
+npm install --save react-native-animated-accordion react-native-reanimated
 ```
 
 Using yarn
 
 ```bash
-yarn add react-native-animated-accordion react-native-reanimated react-native-svg
+yarn add react-native-animated-accordion react-native-reanimated
 ```
 
 Before using the package setup packages on your project
-
 
 For react-native-reanimated follow [this](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation) documentation
 
@@ -41,19 +40,18 @@ import { Accordion } from 'react-native-animated-accordion';
 
 ## Properties
 
-| Prop                        | Description                                         | Default          |
-| --------------------------- | --------------------------------------------------- | ---------------- |
-| **`isOpen`**                | if you want to control the collapsed state yourself | `null`           |
-| **`headerText`**            | Name of header                                      | `""`             |
-| **`parentContainerStyles`** | Styles for main container of accordion              | `default styles` |
-| **`bodyContainerStyles`**   | Styles for content body of accordion                | `default styles` |
-| **`headerStyles`**          | Styles for header of accordion                      | `default styles` |
-| **`headerTextStyles`**      | Styles for header text of accordion                 | `default styles` |
-| **`headerIconStyles`**      | Styles for header arrow icon of accordion           | `default styles` |
-| **`headerIconColor`**       | Icon color of header                                | `#000000`        |
-| **`headerIconSize`**        | Icon size of header                                 | `20`             |
-| **`onPress`**               | Function triggered when user clicks on header       | `null`           |
-| **`duration`**              | Duration of animation in milliseconds               | `300`            |
+| Prop                        | Description                                                                                | Default              |
+| --------------------------- | ------------------------------------------------------------------------------------------ | -------------------- |
+| **`open`**                  | if you want to control the collapsed state yourself                                        | `boolean (Required)` |
+| **`onChange`**              | Function triggered with value of type boolean passed as argument for possible future value | `null`               |
+| **`headerText`**            | Text of header                                                                             | `""`                 |
+| **`icon`**                  | A JSX Icon Element                                                                         | `null`               |
+| **`parentContainerStyles`** | Styles for main container of accordion                                                     | `default styles`     |
+| **`bodyStyles`**            | Styles for content body of accordion                                                       | `default styles`     |
+| **`headerStyles`**          | Styles for header of accordion                                                             | `default styles`     |
+| **`headerTextStyles`**      | Styles for header text of accordion                                                        | `default styles`     |
+| **`duration`**              | Duration of animation in milliseconds                                                      | `300`                |
+| **`spacing`**               | Spacing between header and the body when its collapsed                                     | `5`                  |
 
 ## Accordion Usage Examples
 
@@ -63,14 +61,23 @@ This is a convenience component for a common use case, see below.
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Accordion } from 'react-native-animated-accordion';
+import Icon from './Icon';
 
 const App = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openOne, setOpenOne] = useState(false);
+  const [openTwo, setOpenTwo] = useState(false);
+  const [openThree, setOpenThree] = useState(false);
 
   return (
     <ScrollView contentContainerStyle={styles.mainContainer}>
       <Text style={{ color: '#000000', marginVertical: 20 }}>Light Theme</Text>
-      <Accordion headerText="Light Theme">
+      <Accordion
+        spacing={10}
+        headerText="Light Theme"
+        open={openOne}
+        onChange={(value) => setOpenOne(value)}
+        icon={<Icon color="#000000" size={20} />}
+      >
         <View style={{ padding: 10 }}>
           <Text style={{ color: '#000000' }}>Light Theme</Text>
           <Text style={{ color: '#000000' }}>Light Theme</Text>
@@ -82,13 +89,19 @@ const App = () => {
 
       <Text style={{ color: '#000000', marginVertical: 20 }}>Dark Theme</Text>
       <Accordion
+        icon={<Icon color="#ffffff" size={40} />}
+        open={openTwo}
+        onChange={(value) => setOpenTwo(value)}
         bodyStyles={{
           backgroundColor: 'black',
         }}
         headerText="Dark Theme"
-        headerStyles={{ paddingVertical: 15, backgroundColor: '#000000' }}
+        headerStyles={{
+          paddingVertical: 15,
+          backgroundColor: '#000000',
+          alignItems: 'center',
+        }}
         headerTextStyles={{ color: '#ffffff' }}
-        headerIconStyles={{ fontSize: 15, color: '#ffffff' }}
       >
         <View style={{ padding: 10 }}>
           <Text style={{ color: '#ffffff' }}>Dark Theme</Text>
@@ -101,6 +114,8 @@ const App = () => {
 
       <Text style={{ color: '#000000', marginVertical: 20 }}>Props Intro</Text>
       <Accordion
+        open={openThree}
+        onChange={(value) => setOpenThree(value)}
         parentContainerStyles={{
           marginTop: 20,
         }}
@@ -110,9 +125,6 @@ const App = () => {
         headerText="Header"
         headerStyles={{ paddingVertical: 20 }}
         headerTextStyles={{ fontStyle: 'italic' }}
-        headerIconStyles={{ fontSize: 15 }}
-        isOpen={isOpen}
-        onPress={() => setIsOpen(!isOpen)}
       >
         <View style={{ padding: 10 }}>
           <Text style={{ color: '#000000' }}>Header</Text>
