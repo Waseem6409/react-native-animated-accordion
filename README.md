@@ -42,7 +42,7 @@ import { Accordion } from 'react-native-animated-accordion';
 
 | Prop                        | Description                                                                                | Default              |
 | --------------------------- | ------------------------------------------------------------------------------------------ | -------------------- |
-| **`open`**                  | if you want to control the collapsed state yourself                                        | `boolean (Required)` |
+| **`open`**                  |               A boolean value to manage the state of the accordion                           | `null (Required)` |
 | **`onChange`**              | Function triggered with value of type boolean passed as argument for possible future value | `null`               |
 | **`headerText`**            | Text of header                                                                             | `""`                 |
 | **`icon`**                  | A JSX Icon Element                                                                         | `null`               |
