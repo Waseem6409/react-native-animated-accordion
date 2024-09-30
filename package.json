@@ -1,6 +1,6 @@
 {
   "name": "react-native-animated-accordion",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "React Native Component for creating animated accordion, collapsible, toggles etc",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
