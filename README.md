@@ -24,7 +24,7 @@ yarn add react-native-animated-accordion react-native-reanimated
 
 Before using the package setup packages on your project
 
-For react-native-reanimated follow [this](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation) documentation
+For react-native-reanimated follow [this](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started/#step-1-install-the-package) documentation
 
 ## Usage
 
